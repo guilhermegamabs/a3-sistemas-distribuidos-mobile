@@ -20,19 +20,18 @@ public class Server {
 
         try {
             serverSocket = new ServerSocket(portServer);
+            scanner.close();
 
             while (true) {
-                System.out.println("Aguardando o player...");
+                System.out.println("Aguardando cliente...");
                 Socket player = serverSocket.accept();
-                System.out.println("Conectado com o " + player);
+                System.out.println("Conectado com " + player);
 
-                
+                PlayMatch playMatch = new PlayMatch(player);
+                playMatch.start();
             }
         } catch (Exception e) {
             System.out.println("ERROR on Server side " + e.getMessage());
-        } finally {
-            scanner.close();
         }
-
     }
 }

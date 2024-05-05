@@ -5,46 +5,42 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Communication {
-    private ObjectInputStream in;
     private ObjectOutputStream out;
+    private ObjectInputStream in;
 
-    public Communication(Socket socket) {
+    public Communication(Socket socket){
         try {
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
+            out = new ObjectOutputStream( socket.getOutputStream() );
+            in = new ObjectInputStream( socket.getInputStream() );
         } catch (Exception e) {
-            System.out.println("ERROR ON CREATING THE COMMUNICATION CONSTRUCTOR");
+            System.out.println("Error on create object for communication.");
             System.out.println(e.getMessage());
         }
     }
 
-    public void send(Object obj) {
+    public void send(Object object){
         try {
-            out.writeObject(obj);
+            out.writeObject(object);
             out.flush();
             out.reset();
         } catch (Exception e) {
-            System.out.println("ERROR ON SENDING OBJECT");
             System.out.println(e.getMessage());
         }
     }
 
-    public Object receive() {
+    public Object receive(){
         try {
             return in.readObject();
         } catch (Exception e) {
-            System.out.println("ERROR ON RECEIVING OBJECT");
-            System.out.println(e.getMessage());
             return null;
         }
     }
 
-    public void close() {
+    public void close(){
         try {
             in.close();
             out.close();
         } catch (Exception e) {
-            System.out.println("ERROR ON CLOSING THE COMMUNICATION CONSTRUCTOR");
             System.out.println(e.getMessage());
         }
     }

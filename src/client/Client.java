@@ -5,6 +5,7 @@ import util.Message;
 import util.Response;
 
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Client {
@@ -16,7 +17,9 @@ public class Client {
         int portServer = 5509;
 
         String playerName, playerInput;
-        int opcao;
+        int opcao = 0;
+
+        boolean loop = true;
 
         Communication communication;
         Message message;
@@ -31,6 +34,7 @@ public class Client {
 
             System.out.printf("Informe a PORTA do Servidor (PORTA DEFAULT: %s): ", portServer);
             playerInput = scanner.nextLine();
+
             if (playerInput.length() > 0) {
                 portServer = Integer.parseInt(playerInput);
             }
@@ -41,16 +45,20 @@ public class Client {
             System.out.println("Qual seu nome? ");
             playerName = scanner.nextLine();
 
-            System.out.println("Escola uma opção: \n(1) Papel \n(2) Pedra \n(3) Tesoura");
-            opcao = scanner.nextInt();
+            while(opcao != 4) {
+                System.out.println("\nEscola uma opção: \n(1) Papel \n(2) Pedra \n(3) Tesoura \n(4) Sair");
+                System.out.println();
+                opcao = scanner.nextInt();
 
-            message = new Message(playerName, opcao);
+                message = new Message(playerName, opcao);
+                communication.send(message);
 
-            Response response = (Response) communication.receive();
+                Response response = (Response) communication.receive();
 
-            System.out.println("Resposta: " + response);
-            communication.send(message);
+                System.out.println("\nResposta: " + response);
+            }
 
+            System.out.println("Jogo Encerrado!");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
