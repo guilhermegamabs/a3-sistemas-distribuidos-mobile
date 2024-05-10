@@ -31,20 +31,22 @@ public class PlayMatch extends Thread {
         try {
             Message messagePlayer1 = (Message) communicationPlayer1.receive();
 
-            Message messageServer = new Message("Servidor", random.nextInt(3) + 1);
+            while (messagePlayer1.getOpcao() != 4) {
+                Message messageServer = new Message("Servidor", random.nextInt(3) + 1);
 
-            if(messagePlayer1.getOpcao() == messageServer.getOpcao()) {
-                messagePlayer1.empatou();
-                response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
-            } else if(messagePlayer1.getOpcao() == 1 && messageServer.getOpcao() == 2) {
-                messagePlayer1.venceu();
-                response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
-            } else {
-                messagePlayer1.perdeu();
-                response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                if (messagePlayer1.getOpcao() == messageServer.getOpcao()) {
+                    messagePlayer1.empatou();
+                    response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                } else if (messagePlayer1.getOpcao() == 1 && messageServer.getOpcao() == 2) {
+                    messagePlayer1.venceu();
+                    response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                } else {
+                    messagePlayer1.perdeu();
+                    response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                }
+
+                communicationPlayer1.send(response);
             }
-
-            communicationPlayer1.send(response);
 
         } catch (Exception e) {
         } finally {
