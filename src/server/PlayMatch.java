@@ -26,28 +26,36 @@ public class PlayMatch extends Thread {
 
     private void playSingle() {
         Random random = new Random();
-        Response response;
+        Response response = null;
+        int opcao = 0;
 
         try {
-            Message messagePlayer1 = (Message) communicationPlayer1.receive();
+            Message messagePlayer1 = null;
 
-            while (messagePlayer1.getOpcao() != 4) {
+            while(opcao != 4) {
                 Message messageServer = new Message("Servidor", random.nextInt(3) + 1);
+                messagePlayer1 = (Message) communicationPlayer1.receive();
+                    if(messagePlayer1.getOpcao() != 4) {
+                        System.out.println("Jogador - " + messagePlayer1.getOpcao() + " X " + messageServer.getOpcao() + " - Server");
+                    }
 
-                if (messagePlayer1.getOpcao() == messageServer.getOpcao()) {
-                    messagePlayer1.empatou();
-                    response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
-                } else if (messagePlayer1.getOpcao() == 1 && messageServer.getOpcao() == 2) {
-                    messagePlayer1.venceu();
-                    response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
-                } else {
-                    messagePlayer1.perdeu();
-                    response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
-                }
+                    if (messagePlayer1.getOpcao() == messageServer.getOpcao()) {
+                        messagePlayer1.empatou();
+                        response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                    } else if (messagePlayer1.getOpcao() == 1 && messageServer.getOpcao() == 2 || messagePlayer1.getOpcao() == 2 && messageServer.getOpcao() == 3 || messagePlayer1.getOpcao() == 3 && messageServer.getOpcao() == 1 ) {
+                        messagePlayer1.venceu();
+                        response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                    } else if(messagePlayer1.getOpcao() == 2 && messageServer.getOpcao() == 1 || messagePlayer1.getOpcao() == 3 && messageServer.getOpcao() == 2 || messagePlayer1.getOpcao() == 1 && messageServer.getOpcao() == 3 ){
+                        messagePlayer1.perdeu();
+                        response = new Response(messagePlayer1.getPlayerName(), messagePlayer1.getVitorias(), messagePlayer1.getEmpates(), messagePlayer1.getDerrotas());
+                    } else {
+                        opcao = 4;
+                    }
 
                 communicationPlayer1.send(response);
-            }
+                }
 
+            System.out.println("Cliente encerrou o jogo!");
         } catch (Exception e) {
         } finally {
             try {

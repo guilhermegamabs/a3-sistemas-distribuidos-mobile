@@ -9,6 +9,7 @@ public class Server {
         ServerSocket serverSocket = null;
         int portServer = 5509;
 
+
         Scanner scanner = new Scanner(System.in);
 
         String inputData;
@@ -21,6 +22,7 @@ public class Server {
         try {
             serverSocket = new ServerSocket(portServer);
             scanner.close();
+
 
             while (true) {
                 System.out.println("Aguardando cliente...");
