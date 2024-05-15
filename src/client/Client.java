@@ -1,11 +1,11 @@
 package client;
 
+import util.Choice;
 import util.Communication;
 import util.Message;
 import util.Response;
 
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Client {
@@ -16,13 +16,15 @@ public class Client {
         String ipServer = "127.0.0.1";
         int portServer = 5509;
 
-        String playerName, playerInput;
         int opcao = 0;
+        
+        String playerName, playerInput;
 
         boolean loop = true;
 
         Communication communication;
         Message message;
+        Choice choice;
 
         try {
             System.out.printf("Informe o IP do Servidor (IP DEFAULT: %s): ", ipServer);
@@ -44,6 +46,7 @@ public class Client {
 
             System.out.println("Qual seu nome? ");
             playerName = scanner.nextLine();
+            
 
             while(opcao != 4) {
                 System.out.println("\nEscola uma opção: \n(1) Papel \n(2) Pedra \n(3) Tesoura \n(4) Sair");

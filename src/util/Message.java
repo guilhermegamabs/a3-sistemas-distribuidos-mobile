@@ -48,4 +48,5 @@ public class Message implements Serializable {
     public String getPlayerName() {
         return playerName;
     }
+    
 }
