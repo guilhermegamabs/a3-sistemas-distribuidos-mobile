@@ -1,10 +1,10 @@
-package server;
+package util;
 
 public class Player {
     private int victories;
     private int draws;
     private int defeats;
-
+    private String name;
 
     public void increaseVictories() {
         victories++;
@@ -41,5 +41,13 @@ public class Player {
 
     public void setDefeats(int defeats) {
         this.defeats = defeats;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
